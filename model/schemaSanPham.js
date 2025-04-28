@@ -1,42 +1,48 @@
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-generator');
+const { gio_hang_arr } = require('../data');
 
-// Kích hoạt plugin slug để tự động tạo slug từ tên sản phẩm
+// Kích hoạt plugin slug
 mongoose.plugin(slug);
-
 // Định nghĩa schema cho sản phẩm
 const sanPhamSchema = new mongoose.Schema({
-  ten_sp: { type: String, required: true }, // Tên sản phẩm (ví dụ: "Áo sơ mi nam Gucci")
-  slug: { type: String, slug: 'ten_sp', unique: true }, // Slug tự động từ ten_sp (ví dụ: "ao-so-mi-nam-gucci")
-  id_loai: { type: mongoose.Schema.Types.ObjectId, ref: 'LoaiSanPham', required: true }, // Tham chiếu danh mục (ví dụ: Áo sơ mi)
-  id_thuong_hieu: { type: mongoose.Schema.Types.ObjectId, ref: 'ThuongHieu', default: null }, // Tham chiếu thương hiệu (ví dụ: Gucci)
-  mo_ta: { type: String, default: '' }, // Mô tả sản phẩm
-  chat_lieu: { type: String, default: '' }, // Chất liệu (ví dụ: "Lụa")
-  xuat_xu: { type: String, default: '' }, // Xuất xứ (ví dụ: "Ý")
+  ten_sp: { type: String, required: true },
+  slug: { type: String, slug: 'ten_sp', unique: true }, // Slug tự động từ ten_loai
+  id_loai: { type: mongoose.Schema.Types.ObjectId, ref: 'LoaiSanPham', required: true },
+  id_thuong_hieu: { type: mongoose.Schema.Types.ObjectId, ref: 'ThuongHieu', default: null },
+  mo_ta: { type: String, default: '' },
+  chat_lieu: { type: String, default: '' },
+  xuat_xu: { type: String, default: '' },
   variants: [{
-    sku: { type: String, required: true }, // Mã SKU của biến thể (ví dụ: "ASM-GUCCI-WHITE-M")
-    kich_thuoc: { type: String, enum: ['S', 'M', 'L', 'XL', 'XXL'], required: true }, // Kích thước
-    mau_sac: { type: String, required: true }, // Màu sắc
-    gia: { type: Number, min: 0, required: true }, // Giá của biến thể
-    gia_km: { type: Number, min: 0, default: null }, // Giá khuyến mãi
-    so_luong: { type: Number, min: 0, default: 0 }, // Số lượng tồn kho
-    so_luong_da_ban: { type: Number, min: 0, default: 0 }, // Số lượng đã bán
-    hinh_chinh: { type: String, default: '' }, // Ảnh chính của biến thể
-    hinh_thumbnail: [{ type: String }], // Mảng ảnh thumbnail của biến thể
-  }], // Mảng các biến thể (kích thước, màu sắc, giá, ảnh)
-  hot: { type: Boolean, default: false }, // Sản phẩm nổi bật
-  luot_xem: { type: Number, min: 0, default: 0 }, // Lượt xem
-  an_hien: { type: Boolean, default: true }, // Ẩn/hiện sản phẩm
-  tags: [{ type: String }], // Từ khóa tìm kiếm (ví dụ: ["áo sơ mi", "nam"])
-  meta_title: { type: String, default: '' }, // Tiêu đề SEO
-  meta_description: { type: String, default: '' }, // Mô tả SEO
-  meta_keywords: { type: String, default: '' }, // Từ khóa SEO
-  created_at: { type: Date, default: Date.now }, // Thời gian tạo
-  updated_at: { type: Date, default: Date.now } // Thời gian cập nhật
+    sku: { type: String, required: true },
+    kich_thuoc: { type: String, required: true },
+    mau_sac: { type: String, required: true },
+    gia: { type: Number, min: 0, required: true },
+    gia_km: { type: Number, min: 0, default: null },
+    so_luong: { type: Number, min: 0, default: 0 },
+    so_luong_da_ban: { type: Number, min: 0, default: 0 },
+    hinh_chinh: { type: String, default: '' },
+    hinh_thumbnail: [{ type: String }],
+  }],
+  hot: { type: Boolean, default: false },
+  an_hien: { type: Boolean, default: true },
+  luot_xem: { type: Number, min: 0, default: 0 },
+  tags: [{ type: String }],
+  meta_title: { type: String, default: '' },
+  meta_description: { type: String, default: '' },
+  meta_keywords: { type: String, default: '' },
+  ngay: { type: Date, default: Date.now },
+  gio: { type: String, default: '' },
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now }
 }, { collection: 'san_pham' });
 
-// Middleware để cập nhật updated_at mỗi khi lưu
+// Tạo slug từ ten_sp + _id
 sanPhamSchema.pre('save', function(next) {
+  if (this.isModified('ten_sp') || !this.slug) {
+    const slugifiedName = this.ten_sp.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    this.slug = `${slugifiedName}_${this._id}`;
+  }
   this.updated_at = Date.now();
   next();
 });

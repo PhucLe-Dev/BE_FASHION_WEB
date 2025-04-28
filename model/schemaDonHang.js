@@ -10,8 +10,10 @@ const donHangSchema = new mongoose.Schema({
     gia: { type: Number, min: 0, required: true } // Giá tại thời điểm mua
   }], // Chi tiết đơn hàng
   tong_tien: { type: Number, min: 0, required: true }, // Tổng tiền
+  email: {type: String, required: true},
+  sdt: {type: String, default: ''},
   dia_chi_giao_hang: { type: String, required: true }, // Địa chỉ giao
-  phuong_thuc_thanh_toan: { type: String, enum: ['cod', 'chuyen_khoan', 'the'], required: true }, // Phương thức thanh toán
+  phuong_thuc_thanh_toan: { type: String, enum: ['cod', 'Thẻ tín dụng'], required: true }, // Phương thức thanh toán
   trang_thai: { type: String, enum: ['cho_xac_nhan', 'dang_giao', 'da_giao', 'huy'], default: 'cho_xac_nhan' }, // Trạng thái
   id_khuyen_mai: { type: mongoose.Schema.Types.ObjectId, ref: 'KhuyenMai', default: null }, // Tham chiếu khuyến mãi
   ghi_chu: { type: String, default: '' }, // Ghi chú
