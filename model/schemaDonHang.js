@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 // Định nghĩa schema cho đơn hàng
 const donHangSchema = new mongoose.Schema({
-  id_nguoi_dung: { type: mongoose.Schema.Types.ObjectId, ref: 'NguoiDung', required: true }, // Tham chiếu người dùng
+  id_nguoi_dung: { type: mongoose.Schema.Types.ObjectId, ref: 'nguoi_dung', required: true }, // Tham chiếu người dùng
   ma_don_hang: { type: String, unique: true, required: true }, // Mã đơn hàng (ví dụ: "DH001")
   chi_tiet: [{
-    id_thuoc_tinh: { type: mongoose.Schema.Types.ObjectId, ref: 'ThuocTinhSanPham', required: true }, // Tham chiếu biến thể
+    id_thuoc_tinh: { type: mongoose.Schema.Types.ObjectId, ref: 'san_pham.variants', required: true }, // Tham chiếu biến thể
     so_luong: { type: Number, min: 1, required: true }, // Số lượng
     gia: { type: Number, min: 0, required: true } // Giá tại thời điểm mua
   }], // Chi tiết đơn hàng
@@ -27,9 +27,5 @@ donHangSchema.pre('save', function(next) {
   next();
 });
 
-// Tạo index để tối ưu truy vấn
-donHangSchema.index({ id_nguoi_dung: 1 });
-donHangSchema.index({ ma_don_hang: 1 });
-
 // Export model
-module.exports = mongoose.model('DonHang', donHangSchema);
+module.exports = donHangSchema;

@@ -165,7 +165,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Áo khoác hở vai',
+    ten_sp: 'Áo khoác hở vai rộng',
     id_loai: loai_arr[1]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Áo khoác Off-The-Shoulder được chế tác từ len đen và lụa, nổi bật với thiết kế hai hàng khuy để lộ vai. Các nút bọc vải, một đặc điểm đặc trưng của Nhà mốt, làm nổi bật phần eo. Chiếc áo khoác có thể kết hợp với toàn bộ tủ đồ Dior để tạo nên một hình bóng thanh lịch và tinh tế.',
@@ -471,7 +471,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Áo khoác Montaigne Bar 30',
+    ten_sp: 'Áo khoác Montaigne Bar',
     id_loai: loai_arr[1]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Chiếc váy vừa hiện đại vừa vượt thời gian. Được chế tác bằng len đen và lụa, thiết kế có đường cắt corolla được tô điểm bằng nút CD màu đen ở eo và túi vá phía sau. Kiểu dáng này có thể kết hợp với áo len của mùa này để hoàn thiện vẻ ngoài hiện đại, tinh tế.',
@@ -642,7 +642,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Váy xòe Mini',
+    ten_sp: 'Váy xòe',
     id_loai: loai_arr[1]._id,
     id_thuong_hieu: thuong_hieu_arr[2]._id,
     mo_ta: 'Chiếc váy ngắn kết hợp sự thanh lịch với thiết kế hiện đại. Được chế tác bằng len và lụa nhẹ màu hồng, váy có kiểu dáng xòe với túi bên hông, được tăng cường bởi nếp gấp ngược rộng ở phía trước, tạo hiệu ứng xếp lớp tinh tế. Chiếc váy ngắn có thể kết hợp với áo khoác phù hợp để hoàn thiện vẻ ngoài.',
@@ -1337,7 +1337,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Quần ống đứng may đo',
+    ten_sp: 'Quần ống đứng',
     id_loai: loai_arr[0]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Quần thanh lịch và trang trọng là một thiết kế vượt thời gian. Được chế tác bằng twill len nguyên sinh màu đen, phong cách được cấu trúc bởi các nếp nhăn phía trước và phía sau cho một màn treo hoàn hảo. Quần có thể được phối hợp với một chiếc áo khoác để hoàn thành một cái nhìn vượt thời gian.',
@@ -1914,7 +1914,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Quần Cargo',
+    ten_sp: 'Quần Cargo nữ',
     id_loai: loai_arr[0]._id,
     id_thuong_hieu: thuong_hieu_arr[3]._id,
     mo_ta: 'Quần cargo được may bằng vải gabardine cotton co giãn màu đen. Kiểu dáng tiện dụng có túi có nắp lớn, khóa cài ở mắt cá chân và miếng vá mềm đặc trưng của Dior ở mặt sau. Kiểu dáng giản dị khiến chúng trở thành sự kết hợp lý tưởng với bất kỳ áo phông hoặc áo nỉ trùm đầu nào trong mùa.',
@@ -2181,7 +2181,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Medium Dior Book Tote',
+    ten_sp: 'Medium Dior',
     id_loai: loai_arr[2]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Introduced by Maria Grazia Chiuri, Creative Director of Christian Dior, the Dior Book Tote has become a staple of the Dior aesthetic. Designed to hold all the daily essentials, the white style is fully embroidered with the black Toile de Jouy Scotland motif, capturing the essence of the collection\'s Scottish inspiration by showcasing Scottish folklore through emblematic animals, historic symbols and castles. Adorned with the Christian Dior Paris signature on the front, the medium tote exemplifies the House\'s savoir-faire and can be carried by hand or worn over the shoulder. The bag can be coordinated with the season\'s other Toile de Jouy Scotland creations.',
@@ -2210,7 +2210,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Medium Dior Book Tote',
+    ten_sp: 'Medium Dior Book',
     id_loai: loai_arr[2]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Maria Grazia Chiuri\'s hallmark Dior Book Tote is available in an elegant new variation. Crafted in latte calfskin, the design showcases the Macrocannage motif and is embellished with pale gold-finish metal D.I.O.R. charms on the front. The cashmere leather interior reveals a zip pocket and slip pockets, ideal for organizing all the daily essentials. Featuring an adjustable and removable strap, the lightweight and practical medium tote is a prime example of Dior savoir-faire and may be carried by hand or worn over the shoulder.',
@@ -2281,7 +2281,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Medium Dior Book Tote',
+    ten_sp: 'Medium Dior Tote',
     id_loai: loai_arr[2]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Introduced by Maria Grazia Chiuri, Creative Director of Christian Dior, the Dior Book Tote has become a staple of the Dior aesthetic. Designed to hold all the daily essentials, the style is fully embroidered with the celestial blue and white D-Butterfly Paisley motif, offering a modern and graphic take on the butterfly theme. Adorned with the Christian Dior Paris signature on the front, the medium tote exemplifies the House\'s savoir-faire and may be carried by hand or worn over the shoulder.',
@@ -2457,7 +2457,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Small Dior Book Tote',
+    ten_sp: 'Dior Book Tote',
     id_loai: loai_arr[2]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Maria Grazia Chiuri\'s hallmark Dior Book Tote is presented in an elegant new variation. The refined style combines the beige and white Plan de Paris embroidery — inspired by House archives and structured around Dior\'s historic Avenue Montaigne address — and natural calfskin. Designed to keep all the daily essentials organized, the interior is equipped with a zip pocket and slip pockets. Featuring an adjustable and removable strap, the practical small tote exemplifies Dior\'s savoir-faire and can be carried by hand or worn over the shoulder.',
@@ -2662,7 +2662,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Dior Tribales Earrings',
+    ten_sp: 'Dior Tribales Earringsss',
     id_loai: loai_arr[3]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Được giới thiệu tại Chương trình thời trang Ready-to-Wear Thu 2025, hoa tai Dior Tribales tinh tế nắm bắt chủ đề đồng quê tinh tế của bộ sưu tập. Những viên ngọc trai nhựa đặc trưng được nhấn nhá ở mặt trước bằng một bông mẫu đơn quá khổ được chạm khắc tinh xảo bằng kim loại mạ vàng, được tô điểm bằng những viên ngọc trai nhựa trắng tinh tế. Hoa tai có thể kết hợp với các sáng tạo khác của Jardin de Dior.',
@@ -2845,7 +2845,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Dior Tribales Earrings',
+    ten_sp: 'Dior Tribales',
     id_loai: loai_arr[3]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Hoa tai Dior Tribales là một phong cách mang tính biểu tượng và hiện đại với hai viên ngọc trai nhựa đặc trưng. Cặp hoa tai bất đối xứng này có một ngôi sao trên một viên ngọc trai phía sau và chữ cái viết tắt CD trên viên ngọc trai còn lại, cả hai đều được trang trí bằng pha lê với ánh phản chiếu màu hồng. Mặt trước và mặt sau có thể được kết hợp và phối hợp với các sản phẩm Dior Tribales khác, tạo ra vô số kiểu dáng có thể có.',
@@ -2943,7 +2943,7 @@ const sp_arr = [
   },
   {
     _id: new ObjectId(),
-    ten_sp: 'Dior Tribales Earrings',
+    ten_sp: 'Dior Tribales Ear',
     id_loai: loai_arr[3]._id,
     id_thuong_hieu: thuong_hieu_arr[0]._id,
     mo_ta: 'Hoa tai Dior Tribales tôn vinh di sản và quy tắc thanh lịch của Nhà Dior. Với những viên ngọc trai mang tính biểu tượng, chúng mang chữ ký CD bằng kim loại mạ vàng, từ đó treo một chiếc nơ bằng vải satin đen. Hoa tai thanh lịch này có thể kết hợp với các sáng tạo từ dòng Le Nœud de Dior.',
@@ -3278,7 +3278,7 @@ const gio_hang_arr = [
     id_nguoi_dung: nguoi_dung_arr[1]._id, // Trần Thị B
     items: [
       {
-        id_thuoc_tinh: sp_arr[0].variants[0]._id, // Áo khoác thắt lưng ngắn, size S, trắng
+        id_thuoc_tinh: sp_arr[0].variants[0]._id, 
         so_luong: 2,
         gia: sp_arr[0].variants[0].gia_km || sp_arr[0].variants[0].gia // Ưu tiên gia_km
       },

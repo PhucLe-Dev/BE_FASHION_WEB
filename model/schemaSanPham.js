@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
-const slug = require('mongoose-slug-generator');
-const { gio_hang_arr } = require('../data');
 
-// Kích hoạt plugin slug
-mongoose.plugin(slug);
 // Định nghĩa schema cho sản phẩm
 const sanPhamSchema = new mongoose.Schema({
   ten_sp: { type: String, required: true },
-  slug: { type: String, slug: 'ten_sp', unique: true }, // Slug tự động từ ten_loai
-  id_loai: { type: mongoose.Schema.Types.ObjectId, ref: 'LoaiSanPham', required: true },
-  id_thuong_hieu: { type: mongoose.Schema.Types.ObjectId, ref: 'ThuongHieu', default: null },
+  slug: { type: String, default: null },
+  id_loai: { type: mongoose.Schema.Types.ObjectId, ref: 'loai_san_pham', required: true },
+  id_thuong_hieu: { type: mongoose.Schema.Types.ObjectId, ref: 'thuong_hieu', default: null },
   mo_ta: { type: String, default: '' },
   chat_lieu: { type: String, default: '' },
   xuat_xu: { type: String, default: '' },
@@ -37,21 +33,6 @@ const sanPhamSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now }
 }, { collection: 'san_pham' });
 
-// Tạo slug từ ten_sp + _id
-sanPhamSchema.pre('save', function(next) {
-  if (this.isModified('ten_sp') || !this.slug) {
-    const slugifiedName = this.ten_sp.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    this.slug = `${slugifiedName}_${this._id}`;
-  }
-  this.updated_at = Date.now();
-  next();
-});
-
-// Tạo index để tối ưu truy vấn
-sanPhamSchema.index({ slug: 1 });
-sanPhamSchema.index({ id_loai: 1 });
-sanPhamSchema.index({ id_thuong_hieu: 1 });
-sanPhamSchema.index({ tags: 1 });
 
 // Export model
-module.exports = mongoose.model('SanPham', sanPhamSchema);
+module.exports = sanPhamSchema;

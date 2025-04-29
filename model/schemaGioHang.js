@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 const gioHangSchema = new mongoose.Schema({
   id_nguoi_dung: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'NguoiDung',
+    ref: 'nguoi_dung',
     required: true
   }, // Tham chiếu đến người dùng
   items: [{
     id_thuoc_tinh: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'SanPham.variants',
+      ref: 'san_pham.variants',
       required: true
     }, // Tham chiếu đến biến thể sản phẩm
     so_luong: {
@@ -36,8 +36,6 @@ gioHangSchema.pre('save', function(next) {
   next();
 });
 
-// Tạo index để tối ưu truy vấn
-gioHangSchema.index({ id_nguoi_dung: 1 });
 
 // Export model
-module.exports = mongoose.model('GioHang', gioHangSchema);
+module.exports = gioHangSchema;

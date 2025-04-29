@@ -18,14 +18,6 @@ const thuongHieuSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now } // Thời gian cập nhật
 }, { collection: 'thuong_hieu' });
 
-// Middleware để cập nhật updated_at
-thuongHieuSchema.pre('save', function(next) {
-  this.updated_at = Date.now();
-  next();
-});
-
-// Tạo index để tối ưu truy vấn
-thuongHieuSchema.index({ slug: 1 });
 
 // Export model
-module.exports = mongoose.model('ThuongHieu', thuongHieuSchema);
+module.exports = thuongHieuSchema;

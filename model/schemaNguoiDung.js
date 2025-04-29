@@ -23,8 +23,5 @@ nguoiDungSchema.pre('save', async function(next) {
   next();
 });
 
-// Tạo index để tối ưu truy vấn
-nguoiDungSchema.index({ email: 1 });
-
 // Export model
-module.exports = mongoose.model('NguoiDung', nguoiDungSchema);
+module.exports = nguoiDungSchema;

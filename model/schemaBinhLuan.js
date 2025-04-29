@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 // Định nghĩa schema cho bình luận
 const binhLuanSchema = new mongoose.Schema({
-  id_san_pham: { type: mongoose.Schema.Types.ObjectId, ref: 'SanPham', required: true }, // Tham chiếu sản phẩm
-  id_nguoi_dung: { type: mongoose.Schema.Types.ObjectId, ref: 'NguoiDung', required: true }, // Tham chiếu người dùng
+  id_san_pham: { type: mongoose.Schema.Types.ObjectId, ref: 'san_pham', required: true }, // Tham chiếu sản phẩm
+  id_nguoi_dung: { type: mongoose.Schema.Types.ObjectId, ref: 'nguoi_dung', required: true }, // Tham chiếu người dùng
   ho_ten: { type: String, required: true }, // Họ tên người bình luận
   diem: { type: Number, min: 1, max: 5, default: null }, // Điểm đánh giá (1-5 sao)
   noi_dung: { type: String, required: true }, // Nội dung bình luận
@@ -18,9 +18,5 @@ binhLuanSchema.pre('save', function(next) {
   next();
 });
 
-// Tạo index để tối ưu truy vấn
-binhLuanSchema.index({ id_san_pham: 1 });
-binhLuanSchema.index({ id_nguoi_dung: 1 });
-
 // Export model
-module.exports = mongoose.model('BinhLuan', binhLuanSchema);
+module.exports = binhLuanSchema;

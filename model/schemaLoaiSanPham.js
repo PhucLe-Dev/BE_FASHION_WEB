@@ -9,7 +9,6 @@ const loaiSanPhamSchema = new mongoose.Schema({
   ten_loai: { type: String, required: true }, // Tên danh mục (ví dụ: "Áo sơ mi")
   slug: { type: String, slug: 'ten_loai', unique: true }, // Slug tự động từ ten_loai
   mo_ta: { type: String, default: '' }, // Mô tả danh mục
-  id_cha: { type: mongoose.Schema.Types.ObjectId, ref: 'LoaiSanPham', default: null }, // Danh mục cha (hỗ trợ phân cấp)
   hinh: { type: String, default: '' }, // Ảnh đại diện danh mục
   thu_tu: { type: Number, default: 0 }, // Thứ tự hiển thị
   an_hien: { type: Boolean, default: true }, // Ẩn/hiện danh mục
@@ -26,9 +25,5 @@ loaiSanPhamSchema.pre('save', function(next) {
   next();
 });
 
-// Tạo index để tối ưu truy vấn
-loaiSanPhamSchema.index({ slug: 1 });
-loaiSanPhamSchema.index({ id_cha: 1 });
-
 // Export model
-module.exports = mongoose.model('LoaiSanPham', loaiSanPhamSchema);
+module.exports = loaiSanPhamSchema;
