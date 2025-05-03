@@ -27,8 +27,6 @@ const sanPhamSchema = new mongoose.Schema({
   meta_title: { type: String, default: '' },
   meta_description: { type: String, default: '' },
   meta_keywords: { type: String, default: '' },
-  ngay: { type: Date, default: Date.now },
-  gio: { type: String, default: '' },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 }, { collection: 'san_pham' });

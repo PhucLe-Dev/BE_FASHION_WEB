@@ -71,10 +71,10 @@ const chen_sp = async () => {
     sp.luot_xem = randomCreate(1, 2000);
     let ngay = randomCreate(2023, 2026) + "-" + randomCreate(1, 13) + "-" + randomCreate(1, 29);
     let gio = randomCreate(0, 24) + ":" + randomCreate(0, 60) + ":" + randomCreate(0, 60);
+    console.log(ngay + " " + gio);
     sp.created_at = ngay + " " + gio;
     sp.updated_at = ngay + " " + gio;
     sp.slug = slugify(sp.ten_sp, { lower: true, strict: true }) + "-" + sp._id;
-
     for (let variant of sp.variants) {
       try {
         variant.sku = await generateUniqueSKU();
