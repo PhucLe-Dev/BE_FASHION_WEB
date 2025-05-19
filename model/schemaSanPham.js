@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const sanPhamSchema = new mongoose.Schema({
   ten_sp: { type: String, required: true },
   slug: { type: String, default: null },
-  id_loai: { type: mongoose.Schema.Types.ObjectId, ref: 'loai_san_pham', required: true },
-  id_thuong_hieu: { type: mongoose.Schema.Types.ObjectId, ref: 'thuong_hieu', default: null },
+  id_loai: { type: Number, required: true },
+  id_thuong_hieu: { type: Number, required: true },
   mo_ta: { type: String, default: '' },
   chat_lieu: { type: String, default: '' },
   xuat_xu: { type: String, default: '' },
@@ -15,6 +15,7 @@ const sanPhamSchema = new mongoose.Schema({
     mau_sac: { type: String, required: true },
     gia: { type: Number, min: 0, required: true },
     gia_km: { type: Number, min: 0, default: null },
+    phan_tram_km: { type: Number, min: 0, default: null },
     so_luong: { type: Number, min: 0, default: 0 },
     so_luong_da_ban: { type: Number, min: 0, default: 0 },
     hinh_chinh: { type: String, default: '' },

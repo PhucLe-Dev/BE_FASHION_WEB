@@ -78,8 +78,15 @@ const chen_sp = async () => {
     for (let variant of sp.variants) {
       try {
         variant.sku = await generateUniqueSKU();
-        variant.so_luong = randomCreate(1, 20);
-        variant.so_luong_ban = randomCreate(1, 19);
+        variant.so_luong = randomCreate(29, 30);
+        variant.so_luong_da_ban = randomCreate(1, 28);
+        // Tính phần trăm giảm giá và làm tròn xuống
+        if (variant.gia_km != null && variant.gia_km > 0 && variant.gia_km < variant.gia) {
+          variant.phan_tram_km = Math.floor((variant.gia - variant.gia_km) / variant.gia * 100);
+        } else {
+          variant.phan_tram_km = 0;
+        }
+
       } catch (error) {
         console.error(`Lỗi khi tạo SKU cho sản phẩm ${sp.ten_sp}:`, error.message);
         return;

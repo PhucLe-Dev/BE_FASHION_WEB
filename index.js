@@ -20,8 +20,16 @@ app.get('/', (req, res) => {
 
 // Import các router
 // Router user cho sản phẩm
-const userRouterSP = require('./userRouter/userRouteApi');
+const userRouterSP = require('./userRouter/userRouteSanPham');
 app.use('/api/user', userRouterSP);
+const userRouterBinhLuan = require('./userRouter/userRouterBinhLuan');
+app.use('/api/user/binh-luan', userRouterBinhLuan);
+// Router admin cho sản phẩm
+const adminRouterSP = require('./adminRouter/adminRouterSanPham');
+app.use('/api/admin/san-pham/', adminRouterSP);
+// Router admin cho variants
+const adminRouterVariants = require('./adminRouter/adminRouteVariants');
+app.use('/api/admin/variants/', adminRouterVariants);
 
 // Các route khác sẽ được thêm sau
 // (API cho sản phẩm, danh mục, người dùng, v.v.)

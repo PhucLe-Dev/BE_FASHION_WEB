@@ -6,6 +6,7 @@ mongoose.plugin(slug);
 
 // Định nghĩa schema cho thương hiệu
 const thuongHieuSchema = new mongoose.Schema({
+  id: { type: Number, unique: true, min: 1 }, // ID
   ten_thuong_hieu: { type: String, required: true }, // Tên thương hiệu (ví dụ: "Gucci")
   slug: { type: String, slug: 'ten_thuong_hieu', unique: true }, // Slug tự động
   mo_ta: { type: String, default: '' }, // Mô tả thương hiệu

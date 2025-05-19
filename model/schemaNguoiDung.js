@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 // Định nghĩa schema cho người dùng
 const nguoiDungSchema = new mongoose.Schema({
   ho_ten: { type: String, required: true }, // Họ tên
+  hinh: { type: String, default: '' }, // Hình ảnh đại diện
   email: { type: String, unique: true, required: true }, // Email (duy nhất)
   mat_khau: { type: String, required: true }, // Mật khẩu (mã hóa)
   so_dien_thoai: { type: String, default: '' }, // Số điện thoại

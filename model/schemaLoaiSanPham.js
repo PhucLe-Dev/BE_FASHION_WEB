@@ -6,6 +6,7 @@ mongoose.plugin(slug);
 
 // Định nghĩa schema cho danh mục sản phẩm
 const loaiSanPhamSchema = new mongoose.Schema({
+  id: { type: Number, unique: true, min: 1 }, // ID 
   ten_loai: { type: String, required: true }, // Tên danh mục (ví dụ: "Áo sơ mi")
   slug: { type: String, slug: 'ten_loai', unique: true }, // Slug tự động từ ten_loai
   mo_ta: { type: String, default: '' }, // Mô tả danh mục
