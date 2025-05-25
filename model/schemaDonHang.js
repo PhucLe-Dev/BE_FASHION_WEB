@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 // Định nghĩa schema cho đơn hàng
 const donHangSchema = new mongoose.Schema({
   id_nguoi_dung: { type: mongoose.Schema.Types.ObjectId, ref: 'nguoi_dung', required: true }, // Tham chiếu người dùng
+  id_voucher: { type: mongoose.Schema.Types.ObjectId, ref: 'voucher', required: false }, // Tham chiếu voucher
   ma_don_hang: { type: String, unique: true, required: true }, // Mã đơn hàng (ví dụ: "DH001")
   chi_tiet: [{
-    id_thuoc_tinh: { type: mongoose.Schema.Types.ObjectId, ref: 'san_pham.variants', required: true }, // Tham chiếu biến thể
+    id_variant: { type: mongoose.Schema.Types.ObjectId, ref: 'san_pham.variants', required: true }, // Tham chiếu biến thể
     so_luong: { type: Number, min: 1, required: true }, // Số lượng
     gia: { type: Number, min: 0, required: true } // Giá tại thời điểm mua
   }], // Chi tiết đơn hàng
@@ -13,9 +14,8 @@ const donHangSchema = new mongoose.Schema({
   email: {type: String, required: true},
   sdt: {type: String, default: ''},
   dia_chi_giao_hang: { type: String, required: true }, // Địa chỉ giao
-  phuong_thuc_thanh_toan: { type: String, enum: ['cod', 'Thẻ tín dụng'], required: true }, // Phương thức thanh toán
-  trang_thai: { type: String, enum: ['cho_xac_nhan', 'dang_giao', 'da_giao', 'huy'], default: 'cho_xac_nhan' }, // Trạng thái
-  id_khuyen_mai: { type: mongoose.Schema.Types.ObjectId, ref: 'KhuyenMai', default: null }, // Tham chiếu khuyến mãi
+  phuong_thuc_thanh_toan: { type: String, enum: ['cod', 'VNPay'], required: true }, // Phương thức thanh toán
+  trang_thai: { type: String, enum: ['cho_xac_nhan', 'đã xác nhận', 'đang chuẩn bị hàng', 'dang_giao', 'da_giao', 'huy', 'hoàn tiền và tanh toán'], default: 'cho_xac_nhan' }, // Trạng thái
   ghi_chu: { type: String, default: '' }, // Ghi chú
   created_at: { type: Date, default: Date.now }, // Thời gian tạo
   updated_at: { type: Date, default: Date.now } // Thời gian cập nhật

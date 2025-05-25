@@ -18,23 +18,25 @@ router.get('/san-pham', async (req, res) => {
       return res.status(400).json({ message: 'Số lượng sản phẩm không hợp lệ' });
     }
 
+    const matchCondition = { an_hien: true };
+
     if (isRandom) {
-      // Lấy sản phẩm ngẫu nhiên mỗi lần load
+      // Sản phẩm ngẫu nhiên
       const listSanPham = await SanPhamModel.aggregate([
-        { $match: { an_hien: true } },
+        { $match: matchCondition },
         { $sample: { size: limit } },
         {
           $lookup: {
-            from: "thuong_hieu", // tên collection loại sản phẩm
-            localField: "id_thuong_hieu", // trường trong san_pham
-            foreignField: "id",   // trường trong loai_san_pham
+            from: "thuong_hieu",
+            localField: "id_thuong_hieu",
+            foreignField: "id",
             as: "thuong_hieu"
           }
         },
         {
           $unwind: {
             path: "$thuong_hieu",
-            preserveNullAndEmptyArrays: true // tránh lỗi nếu không có match
+            preserveNullAndEmptyArrays: true
           }
         }
       ]);
@@ -45,21 +47,39 @@ router.get('/san-pham', async (req, res) => {
       });
     }
 
-    // Nếu không phải random thì trả về phân trang bình thường
+    // Nếu không phải random → phân trang + join thông tin thương hiệu
     const page = parseInt(req.query.page) || 1;
     if (page < 1 || isNaN(page)) {
       return res.status(400).json({ message: 'Trang không hợp lệ' });
     }
 
     const skip = (page - 1) * limit;
-    const totalProducts = await SanPhamModel.countDocuments({ an_hien: true });
-    const listSanPham = await SanPhamModel.find({ an_hien: true })
-      .skip(skip)
-      .limit(limit)
-      .exec();
+
+    const totalProducts = await SanPhamModel.countDocuments(matchCondition);
     const totalPages = Math.ceil(totalProducts / limit);
 
-    res.status(200).json({
+    const listSanPham = await SanPhamModel.aggregate([
+      { $match: matchCondition },
+      { $sort: { _id: -1 } }, // Tùy bạn muốn sort thế nào
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "thuong_hieu",
+          localField: "id_thuong_hieu",
+          foreignField: "id",
+          as: "thuong_hieu"
+        }
+      },
+      {
+        $unwind: {
+          path: "$thuong_hieu",
+          preserveNullAndEmptyArrays: true
+        }
+      }
+    ]);
+
+    return res.status(200).json({
       data: listSanPham,
       pagination: {
         currentPage: page,
@@ -68,11 +88,13 @@ router.get('/san-pham', async (req, res) => {
         totalPages
       }
     });
+
   } catch (error) {
     console.error('Error fetching products:', error);
     res.status(500).json({ message: 'Lỗi khi lấy danh sách sản phẩm', error: error.message });
   }
 });
+
 
 // Route để lấy danh sách loại sản phẩm với phân trang
 router.get('/loai-san-pham', async (req, res) => {

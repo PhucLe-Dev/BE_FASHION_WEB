@@ -10,12 +10,11 @@ const hash = bcrypt.hashSync('hehe', salt);
 
 // Dữ liệu danh mục (LoaiSanPham)
 const loai_arr = [
-  { _id: new ObjectId(), id: 1, ten_loai: 'Đồ nam', thu_tu: 1, an_hien: true, hinh: 'https://www.dior.com/couture/var/dior/storage/images/folder-media/folder-productpage/folder-crossselllook/folder-homme/folder-spring-25/folder-csl-perm/block-h_25_1_look_175/44600544-1-eng-GB/h_25_1_look_175.jpg?imwidth=720' },
-  { _id: new ObjectId(), id: 2, ten_loai: 'Đồ nữ', thu_tu: 2, an_hien: true, hinh: 'https://scontent.cdninstagram.com/v/t51.75761-15/486150879_18402862765101904_1039429212972069791_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&cb=30a688f7-097e4a6c&ccb=7-5&_nc_sid=58cdad&_nc_ohc=qwAGPyqD_BEQ7kNvwFVIztN&_nc_oc=AdnTpoA1vPJJfCn91LJ5c48RDZ6_1g_mzdr3UeKbFUxZDBla326sZ9ZIUPh90gvS-n4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=HWn3j_pQYijbgRs-vNHmvA&oh=00_AfKwBdH8VmvNiWhSN9UEVNo0uxJBM-G3S647lowpUfrnUg&oe=682B908C' },
-  { _id: new ObjectId(), id: 3, ten_loai: 'Túi xách', thu_tu: 3, an_hien: true, hinh: 'https://d.rapidcdn.app/thumb?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LXl5ejEtMS5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI5MzUwLTE1LzI3MTQ0ODIwMF8zMzQyOTIxOTUwMjY3OTBfNDM4NDg4ODMyMzYzNTY2MjQxMF9uLmpwZz9zdHA9ZHN0LWpwZ19lMzVfcDEwODB4MTA4MF90dDYmX25jX2h0PXNjb250ZW50LXl5ejEtMS5jZG5pbnN0YWdyYW0uY29tJl9uY19jYXQ9MTAyJl9uY19vYz1RNmNaMlFFZG9zLWlTaUprN1h6Ui1OQWFRMWdaVXRnQmxPNmZMeVhZOWNOT1ZGSFVzaW84QXktRUx4YVBBblpaLV9RWURCcyZfbmNfb2hjPWVRa1hIWHdsZjRZUTdrTnZ3R2RJMS1MJl9uY19naWQ9cGh1VmRLY1NqcjFQWWJ2bGlsSnhXZyZlZG09QVBzMTdDVUJBQUFBJmNjYj03LTUmb2g9MDBfQWZKM2N6aTZwNDJYTWdMblhGcXp1cmpxTk5QLXgtcm0yLUNCcjBwSEp6YTZCUSZvZT02ODIxRDlEOCZfbmNfc2lkPTEwZDEzYiIsImhlYWRlcnMiOnsidXNlci1hZ2VudCI6IlRlbGVncmFtQm90IChsaWtlIFR3aXR0ZXJCb3QpIn0sImlhdCI6MTc0NjY2OTQyNH0.-HkCVM1OmDZnnElpfpY195P-ANZo0VNIU0tzmQxhvtg' },
-  { _id: new ObjectId(), id: 4, ten_loai: 'Phụ kiện', thu_tu: 4, an_hien: true, hinh: 'https://diorama.dam-broadcast.com/cdn-cgi/image/width=355,format=auto/pm_11872_1038_1038091-d5n44h7chf-whr.jpg' }
+  { _id: new ObjectId(), id: 1, ten_loai: 'Đồ nam', thu_tu: 1, an_hien: true, hinh: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748070916/parkbogum_c2heli.jpg' },
+  { _id: new ObjectId(), id: 2, ten_loai: 'Đồ nữ', thu_tu: 2, an_hien: true, hinh: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748069249/kimjiwon_yilxm4.jpg' },
+  { _id: new ObjectId(), id: 3, ten_loai: 'Túi xách', thu_tu: 3, an_hien: true, hinh: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748070915/bona_u9qryj.jpg' },
+  { _id: new ObjectId(), id: 4, ten_loai: 'Phụ kiện', thu_tu: 4, an_hien: true, hinh: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748069528/goyoujung2_h14veh.jpg' }
 ];
-
 
 // Dữ liệu thương hiệu (ThuongHieu)
 const thuong_hieu_arr = [
@@ -3237,15 +3236,64 @@ const nguoi_dung_arr = [
   { _id: new ObjectId(), ho_ten: 'Trần Thị B', email: 'tranthib@gmail.com', mat_khau: hash, vai_tro: 'khach_hang', hinh: 'https://d.rapidcdn.app/thumb?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LXl5ejEtMS5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI5MzUwLTE1LzI3MTQ0ODIwMF8zMzQyOTIxOTUwMjY3OTBfNDM4NDg4ODMyMzYzNTY2MjQxMF9uLmpwZz9zdHA9ZHN0LWpwZ19lMzVfcDEwODB4MTA4MF90dDYmX25jX2h0PXNjb250ZW50LXl5ejEtMS5jZG5pbnN0YWdyYW0uY29tJl9uY19jYXQ9MTAyJl9uY19vYz1RNmNaMlFFZG9zLWlTaUprN1h6Ui1OQWFRMWdaVXRnQmxPNmZMeVhZOWNOT1ZGSFVzaW84QXktRUx4YVBBblpaLV9RWURCcyZfbmNfb2hjPWVRa1hIWHdsZjRZUTdrTnZ3R2RJMS1MJl9uY19naWQ9cGh1VmRLY1NqcjFQWWJ2bGlsSnhXZyZlZG09QVBzMTdDVUJBQUFBJmNjYj03LTUmb2g9MDBfQWZKM2N6aTZwNDJYTWdMblhGcXp1cmpxTk5QLXgtcm0yLUNCcjBwSEp6YTZCUSZvZT02ODIxRDlEOCZfbmNfc2lkPTEwZDEzYiIsImhlYWRlcnMiOnsidXNlci1hZ2VudCI6IlRlbGVncmFtQm90IChsaWtlIFR3aXR0ZXJCb3QpIn0sImlhdCI6MTc0NjY2OTQyNH0.-HkCVM1OmDZnnElpfpY195P-ANZo0VNIU0tzmQxhvtg' }
 ];
 
+// Dữ liệu voucher (Voucher)
+const voucher_arr = [
+  {
+    _id: new ObjectId(),
+    code: "WELCOME10",
+    description: "Giảm 10% cho đơn hàng đầu tiên",
+    discount_type: "percent",
+    discount_value: 10,
+    min_order_value: 0,
+    start_date: new Date("2025-05-01T00:00:00Z"),
+    end_date: new Date("2025-06-01T23:59:59Z"),
+    is_active: true
+  },
+  {
+    _id: new ObjectId(),
+    code: "SUMMER50K",
+    description: "Giảm 50.000đ cho đơn từ 500.000đ",
+    discount_type: "fixed",
+    discount_value: 50000,
+    min_order_value: 500000,
+    start_date: new Date("2025-06-01T00:00:00Z"),
+    end_date: new Date("2025-06-30T23:59:59Z"),
+    is_active: true
+  },
+  {
+    _id: new ObjectId(),
+    code: "FLASHSALE20",
+    description: "Flash Sale - Giảm 20% trong 2 ngày",
+    discount_type: "percent",
+    discount_value: 20,
+    min_order_value: 200000,
+    start_date: new Date("2025-05-27T00:00:00Z"),
+    end_date: new Date("2025-05-28T23:59:59Z"),
+    is_active: true
+  },
+  {
+    _id: new ObjectId(),
+    code: "EXPIRED100K",
+    description: "Voucher hết hạn thử nghiệm",
+    discount_type: "fixed",
+    discount_value: 100000,
+    min_order_value: 300000,
+    start_date: new Date("2025-04-01T00:00:00Z"),
+    end_date: new Date("2025-04-30T23:59:59Z"),
+    is_active: false
+  }
+];
+
 // Dữ liệu đơn hàng (DonHang)
 const don_hang_arr = [
   {
     _id: new ObjectId(),
     id_nguoi_dung: nguoi_dung_arr[1]._id,
+    id_voucher: voucher_arr[0]._id, // Sử dụng voucher WELCOME10
     ma_don_hang: 'DH001',
     chi_tiet: [
       {
-        id_thuoc_tinh: sp_arr[0].variants[0]._id,
+        id_variant: sp_arr[0].variants[0]._id,
         so_luong: 2,   
         gia: 5000000
       }
@@ -3255,6 +3303,24 @@ const don_hang_arr = [
     sdt: '0865945907',
     dia_chi_giao_hang: '123 Đường Láng, TPHCM',
     phuong_thuc_thanh_toan: 'cod',
+    trang_thai: 'cho_xac_nhan'
+  },
+  {
+    _id: new ObjectId(),
+    id_nguoi_dung: nguoi_dung_arr[0]._id,
+    ma_don_hang: 'DH002',
+    chi_tiet: [
+      {
+        id_variant: sp_arr[4].variants[0]._id,
+        so_luong: 1,   
+        gia: 10000000
+      }
+    ],
+    tong_tien: 10000000,
+    email: "phucle.415776@gmail.com",
+    sdt: '0865945907',
+    dia_chi_giao_hang: '123 Đường Láng, TPHCM',
+    phuong_thuc_thanh_toan: 'VNPay',
     trang_thai: 'cho_xac_nhan'
   }
 ];
@@ -3293,6 +3359,7 @@ module.exports = {
   thuong_hieu_arr,
   sp_arr,
   nguoi_dung_arr,
+  voucher_arr,
   don_hang_arr,
   binh_luan_arr,
   gio_hang_arr

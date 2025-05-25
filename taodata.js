@@ -13,6 +13,7 @@ const NguoiDung = require('./model/schemaNguoiDung');
 const DonHang = require('./model/schemaDonHang');
 const BinhLuan = require('./model/schemaBinhLuan');
 const GioHang = require('./model/schemaGioHang');
+const Voucher = require('./model/schemaVoucher');
 
 // Import dữ liệu mẫu
 const {
@@ -20,6 +21,7 @@ const {
   thuong_hieu_arr,
   sp_arr,
   nguoi_dung_arr,
+  voucher_arr,
   don_hang_arr,
   binh_luan_arr,
   gio_hang_arr
@@ -114,6 +116,17 @@ const chen_nguoi_dung = async () => {
   console.log('Chèn người dùng thành công');
 };
 
+// Hàm chèn voucher
+const chen_voucher = async () => {
+  const VoucherModel = conn.model('voucher', Voucher);
+  await VoucherModel.deleteMany({}).then(obj => console.log(`Đã xóa ${obj.deletedCount} voucher`));
+  for (let voucher of voucher_arr) {
+    let newVoucher = new VoucherModel(voucher);
+    await newVoucher.save();
+  }
+  console.log('Chèn voucher thành công');
+};
+
 // Hàm chèn đơn hàng
 const chen_don_hang = async () => {
   const DonHangModel = conn.model('don_hang', DonHang);
@@ -153,6 +166,7 @@ const chen_gio_hang = async () => {
   await chen_thuong_hieu();
   await chen_sp();
   await chen_nguoi_dung();
+  await chen_voucher();
   await chen_don_hang();
   await chen_binh_luan();
   await chen_gio_hang();

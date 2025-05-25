@@ -19,11 +19,15 @@ app.get('/', (req, res) => {
 });
 
 // Import các router
+// Router cho user
 // Router user cho sản phẩm
 const userRouterSP = require('./userRouter/userRouteSanPham');
 app.use('/api/user', userRouterSP);
 const userRouterBinhLuan = require('./userRouter/userRouterBinhLuan');
 app.use('/api/user/binh-luan', userRouterBinhLuan);
+
+
+// Router cho addmin
 // Router admin cho sản phẩm
 const adminRouterSP = require('./adminRouter/adminRouterSanPham');
 app.use('/api/admin/san-pham/', adminRouterSP);
@@ -31,8 +35,14 @@ app.use('/api/admin/san-pham/', adminRouterSP);
 const adminRouterVariants = require('./adminRouter/adminRouteVariants');
 app.use('/api/admin/variants/', adminRouterVariants);
 
-// Các route khác sẽ được thêm sau
-// (API cho sản phẩm, danh mục, người dùng, v.v.)
+// Router cho shipper 
+// Router shipper cho đơn hàng
+const shipperRouterDonHang = require('./shipperRouter/donHangRoute');
+app.use('/api/shipper/order', shipperRouterDonHang);
+
+
+// Các route viết cùng ở đây
+
 
 // Khởi động server
 app.listen(port, () => {
