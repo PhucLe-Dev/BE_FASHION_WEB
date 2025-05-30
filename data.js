@@ -3232,8 +3232,11 @@ const sp_arr = [
 
 // Dữ liệu người dùng (NguoiDung)
 const nguoi_dung_arr = [
-  { _id: new ObjectId(), ho_ten: 'Nguyễn Văn A', email: 'nguyenvana@gmail.com', mat_khau: hash, vai_tro: 'admin', hinh:'https://d.rapidcdn.app/thumb?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LWFtczItMS5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI4ODUtMTUvNDg2MTUwODc5XzE4NDAyODYyNzY1MTAxOTA0XzEwMzk0MjkyMTI5NzIwNjk3OTFfbi5qcGc_c3RwPWRzdC1qcGdfZTE1X2ZyX3AxMDgweDEwODBfdHQ2Jl9uY19odD1zY29udGVudC1hbXMyLTEuY2RuaW5zdGFncmFtLmNvbSZfbmNfY2F0PTEwNCZfbmNfb2M9UTZjWjJRSGgxUGtkZW1XU2Ezc0hzUElpd1E2UUtvcklLdU5Jakg3VVNuLV9qcUVCZExsN1lQeHYyUFo2ZGVFTGpvWWN1cGMmX25jX29oYz1IVzVMek52c1czWVE3a052d0hfMkMwOCZfbmNfZ2lkPTNpc2VObzdFM0ZDbVNKZHp3QnFFQUEmZWRtPUFQczE3Q1VCQUFBQSZjY2I9Ny01Jm9oPTAwX0FmS1BmcExkSGVZaHpuVjJkZnRyRnVWM3ZHZlFVc3J6Z3BuVHlVQVd3MVJnUEEmb2U9NjgyMUVEQjMmX25jX3NpZD0xMGQxM2IiLCJoZWFkZXJzIjp7InVzZXItYWdlbnQiOiJUZWxlZ3JhbUJvdCAobGlrZSBUd2l0dGVyQm90KSJ9LCJpYXQiOjE3NDY2NzM4ODR9.fKBfA94icXNwhmHYeo9cEl1YMlLU5OYYbr1C92YafN4' },
-  { _id: new ObjectId(), ho_ten: 'Trần Thị B', email: 'tranthib@gmail.com', mat_khau: hash, vai_tro: 'khach_hang', hinh: 'https://d.rapidcdn.app/thumb?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJodHRwczovL3Njb250ZW50LXl5ejEtMS5jZG5pbnN0YWdyYW0uY29tL3YvdDUxLjI5MzUwLTE1LzI3MTQ0ODIwMF8zMzQyOTIxOTUwMjY3OTBfNDM4NDg4ODMyMzYzNTY2MjQxMF9uLmpwZz9zdHA9ZHN0LWpwZ19lMzVfcDEwODB4MTA4MF90dDYmX25jX2h0PXNjb250ZW50LXl5ejEtMS5jZG5pbnN0YWdyYW0uY29tJl9uY19jYXQ9MTAyJl9uY19vYz1RNmNaMlFFZG9zLWlTaUprN1h6Ui1OQWFRMWdaVXRnQmxPNmZMeVhZOWNOT1ZGSFVzaW84QXktRUx4YVBBblpaLV9RWURCcyZfbmNfb2hjPWVRa1hIWHdsZjRZUTdrTnZ3R2RJMS1MJl9uY19naWQ9cGh1VmRLY1NqcjFQWWJ2bGlsSnhXZyZlZG09QVBzMTdDVUJBQUFBJmNjYj03LTUmb2g9MDBfQWZKM2N6aTZwNDJYTWdMblhGcXp1cmpxTk5QLXgtcm0yLUNCcjBwSEp6YTZCUSZvZT02ODIxRDlEOCZfbmNfc2lkPTEwZDEzYiIsImhlYWRlcnMiOnsidXNlci1hZ2VudCI6IlRlbGVncmFtQm90IChsaWtlIFR3aXR0ZXJCb3QpIn0sImlhdCI6MTc0NjY2OTQyNH0.-HkCVM1OmDZnnElpfpY195P-ANZo0VNIU0tzmQxhvtg' }
+  { _id: new ObjectId(), ho_ten: 'Nguyễn Văn A', email: 'nguyenvana@gmail.com', mat_khau: hash, vai_tro: 'admin', avatar:'https://res.cloudinary.com/dohwmkapy/image/upload/v1748069528/goyoujung1_zef06z.jpg' },
+  { _id: new ObjectId(), ho_ten: 'Trần Thị B', email: 'tranthib@gmail.com', mat_khau: hash, vai_tro: 'khach_hang', avatar: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748069249/kimjiwon2_dsilgi.jpg' },
+  { _id: new ObjectId(), ho_ten: 'Trần Thị C', email: 'tranthic@gmail.com', mat_khau: hash, vai_tro: 'khach_hang', avatar: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748069249/jisoo3_kqv7si.jpg' },
+  { _id: new ObjectId(), ho_ten: 'Lê Văn D', email: 'levand@gmail.com', mat_khau: hash, vai_tro: 'shipper', avatar: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748069248/jisoo4_p7a0qx.jpg' },
+  { _id: new ObjectId(), ho_ten: 'Lê Văn E', email: 'levane@gmail.com', mat_khau: hash, vai_tro: 'shipper', avatar: 'https://res.cloudinary.com/dohwmkapy/image/upload/v1748069249/soobin1_qmmtow.jpg' },
 ];
 
 // Dữ liệu voucher (Voucher)
@@ -3289,6 +3292,7 @@ const don_hang_arr = [
   {
     _id: new ObjectId(),
     id_nguoi_dung: nguoi_dung_arr[1]._id,
+    id_shipper: nguoi_dung_arr[3]._id, // Lê Văn D
     id_voucher: voucher_arr[0]._id, // Sử dụng voucher WELCOME10
     ma_don_hang: 'DH001',
     chi_tiet: [
@@ -3302,12 +3306,13 @@ const don_hang_arr = [
     email: "phucle.415776@gmail.com",
     sdt: '0865945907',
     dia_chi_giao_hang: '123 Đường Láng, TPHCM',
-    phuong_thuc_thanh_toan: 'cod',
-    trang_thai: 'cho_xac_nhan'
+    phuong_thuc_thanh_toan: 'COD',
+    trang_thai: 'Chờ xác nhận',
   },
   {
     _id: new ObjectId(),
     id_nguoi_dung: nguoi_dung_arr[0]._id,
+    id_shipper: nguoi_dung_arr[4]._id, // Lê Văn E
     ma_don_hang: 'DH002',
     chi_tiet: [
       {
@@ -3321,7 +3326,7 @@ const don_hang_arr = [
     sdt: '0865945907',
     dia_chi_giao_hang: '123 Đường Láng, TPHCM',
     phuong_thuc_thanh_toan: 'VNPay',
-    trang_thai: 'cho_xac_nhan'
+    trang_thai: 'Chờ xác nhận',
   }
 ];
 

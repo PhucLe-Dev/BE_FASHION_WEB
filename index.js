@@ -23,8 +23,6 @@ app.get('/', (req, res) => {
 // Router user cho sản phẩm
 const userRouterSP = require('./userRouter/userRouteSanPham');
 app.use('/api/user', userRouterSP);
-const userRouterBinhLuan = require('./userRouter/userRouterBinhLuan');
-app.use('/api/user/binh-luan', userRouterBinhLuan);
 
 
 // Router cho addmin

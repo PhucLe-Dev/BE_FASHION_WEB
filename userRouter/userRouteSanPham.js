@@ -10,67 +10,58 @@ const ThuongHieuSchema = require('../model/schemaThuongHieu');
 router.get('/san-pham', async (req, res) => {
   try {
     const SanPhamModel = conn.model('san_pham', SanPhamSchema);
+    const LoaiSanPhamModel = conn.model('loai_san_pham', LoaiSanPhamSchema);
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
-    const isRandom = req.query.random === 'true';
-    const category = req.query.category ? parseInt(req.query.category) : null; // id_loai
-    const origin = req.query.origin || null; // xuat_xu
-    const brand = req.query.brand ? parseInt(req.query.brand) : null; // id_thuong_hieu
-    const sort = req.query.sort || null; // price_asc, price_desc, views, newest, bestselling, discounted
+    const slug = req.query.slug || null;
+    const category = req.query.category ? parseInt(req.query.category) : null;
+    const origin = req.query.origin || null;
+    const brand = req.query.brand ? parseInt(req.query.brand) : null;
+    const sort = req.query.sort || 'newest';
 
     if (page < 1 || limit < 1 || isNaN(page) || isNaN(limit)) {
       return res.status(400).json({ message: 'Trang hoặc số lượng sản phẩm không hợp lệ' });
     }
 
     const skip = (page - 1) * limit;
-
-    // Điều kiện lọc cơ bản
     const matchCondition = { an_hien: true };
 
-    // Thêm các bộ lọc nếu có
-    if (category) matchCondition.id_loai = category;
+    // Xử lý slug để xác định loại sản phẩm ban đầu
+    let categoryIdFromSlug = null;
+    if (slug) {
+      const category = await LoaiSanPhamModel.findOne({ slug, an_hien: true });
+      console.log('Category from slug:', category); // Debug
+      if (category) {
+        categoryIdFromSlug = category.id;
+      } else {
+        console.log(`No category found for slug: ${slug}`);
+      }
+    }
+
+    // Nếu có category từ checkbox, ưu tiên sử dụng
+    if (category) {
+      matchCondition.id_loai = category;
+    } else if (categoryIdFromSlug) {
+      matchCondition.id_loai = categoryIdFromSlug;
+    } else {
+      // Nếu không có category, bỏ điều kiện id_loai để lấy tất cả sản phẩm
+      delete matchCondition.id_loai;
+    }
+
     if (origin) matchCondition.xuat_xu = origin;
     if (brand) matchCondition.id_thuong_hieu = brand;
 
-    // Nếu là lấy ngẫu nhiên
-    if (isRandom) {
-      const listSanPham = await SanPhamModel.aggregate([
-        { $match: matchCondition },
-        { $sample: { size: limit } },
-        {
-          $lookup: {
-            from: 'thuong_hieu',
-            localField: 'id_thuong_hieu',
-            foreignField: 'id',
-            as: 'thuong_hieu',
-          },
-        },
-        {
-          $unwind: {
-            path: '$thuong_hieu',
-            preserveNullAndEmptyArrays: true,
-          },
-        },
-      ]);
-
-      return res.status(200).json({
-        data: listSanPham,
-        pagination: null,
-      });
-    }
-
-    // Pipeline cơ bản
+    console.log('Match Condition:', matchCondition); // Debug
     let pipeline = [{ $match: matchCondition }];
 
-    // Xử lý sản phẩm giảm giá nếu sort = 'discounted'
+    // Logic sort và pagination
     if (sort === 'discounted') {
       pipeline.push(
         { $unwind: '$variants' },
         {
           $match: {
-            'variants.gia_km': { $ne: null },
-            'variants.gia_km': { $gt: 0 },
+            'variants.gia_km': { $ne: null, $gt: 0 },
             $expr: { $lt: ['$variants.gia_km', '$variants.gia'] },
           },
         },
@@ -97,10 +88,7 @@ router.get('/san-pham', async (req, res) => {
           },
         }
       );
-    }
-
-    // Xử lý sắp xếp theo giá
-    if (sort === 'price_asc' || sort === 'price_desc') {
+    } else if (sort === 'price_asc' || sort === 'price_desc') {
       pipeline.push(
         { $unwind: '$variants' },
         {
@@ -139,10 +127,7 @@ router.get('/san-pham', async (req, res) => {
         },
         { $sort: { effectivePrice: sort === 'price_asc' ? 1 : -1 } }
       );
-    }
-
-    // Xử lý sắp xếp theo bán chạy
-    if (sort === 'bestselling') {
+    } else if (sort === 'bestselling') {
       pipeline.push(
         { $unwind: '$variants' },
         {
@@ -170,20 +155,12 @@ router.get('/san-pham', async (req, res) => {
         },
         { $sort: { totalSold: -1 } }
       );
-    }
-
-    // Sắp xếp theo các tiêu chí khác
-    if (sort === 'views') {
+    } else if (sort === 'views') {
       pipeline.push({ $sort: { luot_xem: -1 } });
     } else if (sort === 'newest') {
       pipeline.push({ $sort: { created_at: -1 } });
-    } else if (sort === 'oldest') {
-      pipeline.push({ $sort: { created_at: 1 } });
-    } else if (sort === 'hot') {
-      pipeline.push({ $match: { hot: true } });
     }
 
-    // Thêm phân trang và lookup thương hiệu
     pipeline.push({
       $facet: {
         paginatedResults: [
@@ -197,31 +174,25 @@ router.get('/san-pham', async (req, res) => {
               as: 'thuong_hieu',
             },
           },
-          {
-            $unwind: {
-              path: '$thuong_hieu',
-              preserveNullAndEmptyArrays: true,
-            },
-          },
+          { $unwind: { path: '$thuong_hieu', preserveNullAndEmptyArrays: true } },
         ],
         totalCount: [{ $count: 'count' }],
       },
     });
 
     const result = await SanPhamModel.aggregate(pipeline).exec();
-
-    const totalProducts = result[0].totalCount.length > 0 ? result[0].totalCount[0].count : 0;
-    const listSanPham = result[0].paginatedResults;
+    console.log('Aggregation result:', result); // Debug
+    const totalProducts = result[0]?.totalCount.length > 0 ? result[0].totalCount[0].count : 0;
+    const listSanPham = result[0]?.paginatedResults || [];
     const totalPages = Math.ceil(totalProducts / limit);
+
+    if (listSanPham.length === 0) {
+      console.log('No products found with current conditions');
+    }
 
     res.status(200).json({
       data: listSanPham,
-      pagination: {
-        currentPage: page,
-        limit,
-        totalProducts,
-        totalPages,
-      },
+      pagination: { currentPage: page, limit, totalProducts, totalPages },
     });
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -249,10 +220,15 @@ router.get('/loai-san-pham', async (req, res) => {
       .limit(limit)
       .exec();
 
+    const data = listLoaiSanPham.map(item => ({
+      ...item._doc,
+      slug: item.slug || item.ten_loai.toLowerCase().replace(/ /g, '-'),
+    }));
+
     const totalPages = Math.ceil(totalProducts / limit);
 
     res.status(200).json({
-      data: listLoaiSanPham,
+      data: data,
       pagination: {
         currentPage: page,
         limit: limit,
@@ -286,10 +262,15 @@ router.get('/thuong-hieu', async (req, res) => {
       .limit(limit)
       .exec();
 
+    const data = listThuongHieu.map(item => ({
+      ...item._doc,
+      slug: item.slug || item.ten_thuong_hieu.toLowerCase().replace(/ /g, '-'),
+    }));
+
     const totalPages = Math.ceil(totalProducts / limit);
 
     res.status(200).json({
-      data: listThuongHieu,
+      data: data,
       pagination: {
         currentPage: page,
         limit: limit,
@@ -309,11 +290,11 @@ router.get('/xuat-xu', async (req, res) => {
     const SanPhamModel = conn.model('san_pham', SanPhamSchema);
 
     const origins = await SanPhamModel.aggregate([
-      { $match: { an_hien: true } }, // Chỉ lấy sản phẩm đang hiển thị
-      { $group: { _id: '$xuat_xu' } }, // Nhóm theo xuat_xu để lấy giá trị duy nhất
-      { $match: { _id: { $ne: null } } }, // Loại bỏ giá trị null
-      { $sort: { _id: 1 } }, // Sắp xếp theo thứ tự bảng chữ cái
-      { $project: { name: '$_id', _id: 0 } }, // Định dạng trả về { name: "Italy" }
+      { $match: { an_hien: true } },
+      { $group: { _id: '$xuat_xu' } },
+      { $match: { _id: { $ne: null } } },
+      { $sort: { _id: 1 } },
+      { $project: { name: '$_id', _id: 0 } },
     ]);
 
     res.status(200).json(origins);
@@ -431,6 +412,159 @@ router.get('/san-pham-lien-quan/:sku', async (req, res) => {
   } catch (error) {
     console.error('Error fetching related products:', error);
     res.status(500).json({ message: 'Error fetching related products', error: error.message });
+  }
+});
+
+// Route để lấy tất cả sản phẩm theo thương hiệu dựa trên slug (có phân trang)
+router.get('/san-pham-theo-thuong-hieu/:slug', async (req, res) => {
+  try {
+    const SanPhamModel = conn.model('san_pham', SanPhamSchema);
+    const ThuongHieuModel = conn.model('thuong_hieu', ThuongHieuSchema);
+    const slug = req.params.slug;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    if (!slug) {
+      return res.status(400).json({ message: 'Slug thương hiệu không hợp lệ' });
+    }
+    if (page < 1 || limit < 1 || isNaN(page) || isNaN(limit)) {
+      return res.status(400).json({ message: 'Trang hoặc số lượng sản phẩm không hợp lệ' });
+    }
+
+    // Tìm thương hiệu theo slug
+    const brand = await ThuongHieuModel.findOne({ slug: slug, an_hien: true });
+    if (!brand) {
+      return res.status(404).json({ message: 'Không tìm thấy thương hiệu với slug này' });
+    }
+
+    const id_thuong_hieu = brand.id;
+    const skip = (page - 1) * limit;
+
+    // Pipeline để lấy sản phẩm theo thương hiệu với phân trang
+    const pipeline = [
+      { $match: { id_thuong_hieu: id_thuong_hieu, an_hien: true } },
+      {
+        $lookup: {
+          from: 'thuong_hieu',
+          localField: 'id_thuong_hieu',
+          foreignField: 'id',
+          as: 'thuong_hieu',
+        },
+      },
+      {
+        $lookup: {
+          from: 'loai_san_pham',
+          localField: 'id_loai',
+          foreignField: 'id',
+          as: 'loai_san_pham',
+        },
+      },
+      { $unwind: { path: '$thuong_hieu', preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: '$loai_san_pham', preserveNullAndEmptyArrays: true } },
+      { $sort: { created_at: -1 } }, // Sắp xếp theo ngày tạo (mới nhất trước)
+      {
+        $facet: {
+          paginatedResults: [
+            { $skip: skip },
+            { $limit: limit },
+          ],
+          totalCount: [{ $count: 'count' }],
+        },
+      },
+    ];
+
+    const result = await SanPhamModel.aggregate(pipeline).exec();
+    const totalProducts = result[0].totalCount.length > 0 ? result[0].totalCount[0].count : 0;
+    const listSanPham = result[0].paginatedResults;
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    res.status(200).json({
+      data: listSanPham,
+      pagination: {
+        currentPage: page,
+        limit,
+        totalProducts,
+        totalPages,
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching products by brand slug:', error);
+    res.status(500).json({ message: 'Lỗi khi lấy danh sách sản phẩm theo thương hiệu', error: error.message });
+  }
+});
+
+// Route để lấy tất cả sản phẩm theo loại sản phẩm dựa trên slug (có phân trang)
+router.get('/san-pham/slug/:slug', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+
+    const LoaiModel = conn.model('loai_san_pham', LoaiSanPhamSchema);
+    const ProductModel = conn.model('san_pham', SanPhamSchema);
+
+    // Tìm loại sản phẩm dựa trên slug
+    const loai = await LoaiModel.findOne({ slug, an_hien: true });
+    if (!loai) {
+      return res.status(404).json({ message: 'Không tìm thấy loại sản phẩm' });
+    }
+
+    // Lọc sản phẩm theo id_loai
+    let match = { an_hien: true, id_loai: loai.id };
+
+    const pipeline = [
+      { $match: match },
+      {
+        $lookup: {
+          from: 'thuong_hieu',
+          localField: 'id_thuong_hieu',
+          foreignField: 'id',
+          as: 'thuong_hieu',
+        },
+      },
+      { $unwind: { path: '$thuong_hieu', preserveNullAndEmptyArrays: true } },
+      { $sort: { created_at: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $project: {
+          ten_sp: 1,
+          slug: 1,
+          id_loai: 1,
+          id_thuong_hieu: 1,
+          mo_ta: 1,
+          chat_lieu: 1,
+          xuat_xu: 1,
+          variants: 1,
+          hot: 1,
+          an_hien: 1,
+          luot_xem: 1,
+          tags: 1,
+          meta_title: 1,
+          meta_description: 1,
+          meta_keywords: 1,
+          created_at: 1,
+          updated_at: 1,
+          thuong_hieu: 1, // Giữ trường thuong_hieu từ $lookup
+        },
+      },
+    ];
+
+    const list = await ProductModel.aggregate(pipeline);
+    const total = await ProductModel.countDocuments(match);
+
+    res.status(200).json({
+      data: list,
+      pagination: {
+        currentPage: page,
+        limit,
+        totalProducts: total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Lỗi server', error: err.message });
   }
 });
 
